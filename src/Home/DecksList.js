@@ -7,7 +7,6 @@ import StudyBtn from "./StudyBtn";
 import DeleteBtn from "./DeleteBtn";
 
 const DecksList = ({decks, error, setDecks, setError}) => {
-  
   useEffect(() => {
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);
@@ -16,13 +15,11 @@ const DecksList = ({decks, error, setDecks, setError}) => {
   if (error) {
     console.log("error:", error);
     }
-
   // after delete need to rerender the page
   const reRender = () => {
     const abortController = new AbortController();
     listDecks(abortController.signal).then(setDecks).catch(setError);
   };
-
   const listOfDecks = decks.map((deck) => (
     <div className="card mb-1">
       <div className="card-body">
@@ -43,7 +40,6 @@ const DecksList = ({decks, error, setDecks, setError}) => {
       </div>
     </div>
   ));
-
   return (
     <div>
       <Route>
