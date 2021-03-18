@@ -1,64 +1,111 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState  } from "react";
+import {useHistory} from "react-router";
+import { useRouteMatch, useParams } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
 import Navbar from "../Layout/Navbar";
-import AddCardBtns from "../ViewDeck/AddCardsBtn";
+import AddCardsBtn from "../ViewDeck/AddCardsBtn";
 
-const StudyScreen = ({ button, deck, setDeck, error, setError }) => {
+const StudyScreen = () => {
+  const [deck, setDeck] = useState({});
+  const [cardIndex, setCardIndex] = useState(0);
+  const [frontSide, setFrontSide] = useState(true);
+  const { deckId } = useParams(); // returns an object that looks like?
+  const history = useHistory();
+
   useEffect(() => {
     const abortController = new AbortController();
-    readDeck(abortController.signal).then(setDeck).catch(setError);
+    readDeck(deckId, abortController.signal).then(setDeck)
     return () => abortController.abort();
   }, []);
-  if (error) {
-    console.log("error:", error);
-  }
-  if (deck < 3) {
-    <h3>Not enough cards.</h3>;
-    <p>
-      You need at least 3 cards to study. There are {deck.cards.length} in this
-      deck.
-    </p>;
-    <AddCardBtns />
-  }
-  const onClick = (event) => {
-    if (button === "flip") {
-      // then render the next button ??
-      return (
-        <button onClick={onClick} button={"next"} className="btn btn-primary">
-          Next
-        </button>
-      );
-    }
-  };
 
-  return (
+  
+  if(Object.keys(deck).length === 0) return null;
+  if (!deck.cards) {return null;}
+  const NotEnoughMessage = (
     <div>
       <Navbar deck={deck} />
       <h2>Study: {deck.name}</h2>
-      <div className="card mb-1">
-        <div className="card-body">
-          <div className="d-flex w-100">
-            <h5 className="card-title">
-              Card {deck.cards} of {deck.cards}
-            </h5>
-          </div>
-          <p className="card-text">{deck.front}</p>
-          <div class="btn-toolbar ">
-            <div class="btn-group">
-              <button
-                onClick={onClick}
-                button={"flip"}
-                className="btn btn-secondary"
-              >
-                Flip
-              </button>
+      <h3>Not enough cards.</h3>
+      <p>
+        You need at least 3 cards to study. There are {deck.cards.length} in this
+        deck.
+      </p>
+      <AddCardsBtn deck={deck}/>
+    </div>
+  );
+
+  // Flip button make Next btn appear
+  // Next button change cardIndex state
+  const handleFlip = (event) => {
+   
+    setFrontSide(!frontSide);
+    
+  };
+  const handleNext = (event) => {
+    if (cardIndex < deck.cards.length - 1) {
+      setCardIndex(cardIndex + 1);
+    } else { 
+      if (
+        window.confirm(
+          `Restart cards?\n\nClick 'cancel' to return to the home page.`
+        )) {
+        setCardIndex(0);
+      } else {
+        history.push("/");
+      }
+    } setFrontSide(true);
+  }
+
+  
+  const renderNextBtn = () => {
+    if(frontSide === false) {
+      return (
+    <button onClick={handleNext} id="next" className="btn btn-primary">
+      Next
+    </button>
+      )
+    } else {
+      return null;
+    }
+  };
+  
+  if (deck.cards.length < 3) {
+    
+    return NotEnoughMessage;
+  } else if (deck.cards.length >= 3) {
+    return (
+      <div>
+        <Navbar deck={deck} />
+        <h2>Study: {deck.name}</h2>
+        <div className="card mb-1">
+          <div className="card-body">
+            <div className="d-flex w-100">
+              <h5 className="card-title">
+                Card {cardIndex + 1} of {deck.cards.length}
+              </h5>
+            </div>
+            {frontSide === true ? (
+              <p className="card-text">{deck.cards[cardIndex].front}</p>
+            ) : (
+              <p className="card-text">{deck.cards[cardIndex].back}</p>
+            )}
+            <div class="btn-toolbar ">
+              <div class="btn-group">
+                <button
+                  onClick={handleFlip}
+                  id="flip"
+                  className="btn btn-secondary"
+                >
+                  Flip
+                </button>
+                {renderNextBtn()}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default StudyScreen;

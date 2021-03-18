@@ -1,10 +1,10 @@
-import React from 'react'
+import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({deck}) => {
-    return (
-        <div>
-            <nav aria-label="breadcrumb">
+const Navbar = ({ deck }) => {
+  return (
+    <div>
+      <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -27,8 +27,8 @@ const Navbar = ({deck}) => {
           </li>
         </ol>
       </nav>
-        </div>
-    )
-}
+    </div>
+  );
+};
 
 export default Navbar;

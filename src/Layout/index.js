@@ -6,53 +6,41 @@ import DecksList from "../Home/DecksList";
 import CreateDeckScreen from "../CreateDeck/CreateDeckScreen";
 import StudyScreen from "../Study/StudyScreen";
 import DeckScreen from "../ViewDeck/DeckScreen";
+import AddCardScreen from "../AddCard/AddCardScreen";
 
 // Layout for the Home Screen
 // <Route> is checking if the exact path is /, then display DecksList on that page
 
 function Layout() {
   const [decks, setDecks] = useState([]);
-  const [error, setError] = useState(undefined);
   const [deck, setDeck] = useState({});
-
+  const [cards, setCards] = useState([]);
   return (
     <Fragment>
       <Header />
       <div className="container">
         <Switch>
+          <Route path="/decks/:deckId/cards/new">
+            <AddCardScreen />
+          </Route>
           <Route path="/decks/:deckId/study">
             <StudyScreen
+              cards={cards}
               deck={deck}
               decks={decks}
-              error={error}
+              setCards={setCards}
               setDeck={setDeck}
               setDecks={setDecks}
-              setError={setError}
             />
           </Route>
           <Route path="/decks/new">
-            <CreateDeckScreen
-              decks={decks}
-              error={error}
-              setDecks={setDecks}
-              setError={setError}
-            />
+            <CreateDeckScreen decks={decks} setDecks={setDecks} />
           </Route>
           <Route path="/decks/:deckId">
-            <DeckScreen
-              decks={decks}
-              error={error}
-              setDecks={setDecks}
-              setError={setError}
-            />
+            <DeckScreen decks={decks} setDecks={setDecks} />
           </Route>
           <Route exact path="/">
-            <DecksList
-              decks={decks}
-              error={error}
-              setDecks={setDecks}
-              setError={setError}
-            />
+            <DecksList decks={decks} setDecks={setDecks} />
           </Route>
           <Route path="*">
             <NotFound />

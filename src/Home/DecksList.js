@@ -6,19 +6,25 @@ import ViewBtn from "./ViewBtn";
 import StudyBtn from "./StudyBtn";
 import DeleteBtn from "./DeleteBtn";
 
-const DecksList = ({decks, error, setDecks, setError}) => {
+const DecksList = ({ decks, setDecks }) => {
   useEffect(() => {
     const abortController = new AbortController();
-    listDecks(abortController.signal).then(setDecks).catch(setError);
+    const signal = abortController.signal;
+
+    listDecks(signal)
+      .then(setDecks)
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          throw error;
+        }
+      });
     return () => abortController.abort();
   }, []);
-  if (error) {
-    console.log("error:", error);
-    }
+
   // after delete need to rerender the page
   const reRender = () => {
     const abortController = new AbortController();
-    listDecks(abortController.signal).then(setDecks).catch(setError);
+    listDecks(abortController.signal).then(setDecks);
   };
   const listOfDecks = decks.map((deck) => (
     <div className="card mb-1">
