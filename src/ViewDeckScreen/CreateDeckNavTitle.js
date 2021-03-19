@@ -21,17 +21,17 @@ const CreateDeck = () => {
     createDeck(deck, formData);
     setFormData({ ...initialFormState });
   };
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   readDeck(deckId, abortController.signal)
-  //     .then(setDeck)
-  //     .catch((error) => {
-  //       if (error.name !== "AbortError") {
-  //         throw error;
-  //       }
-  //     });
-  //   return () => abortController.abort();
-  // }, []);
+  useEffect(() => {
+    const abortController = new AbortController();
+    readDeck(deckId, abortController.signal)
+      .then(setDeck)
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          throw error;
+        }
+      });
+    return () => abortController.abort();
+  }, []);
   return (
     <div>
       <div>

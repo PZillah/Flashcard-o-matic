@@ -6,7 +6,7 @@ import ViewBtn from "./ViewBtn";
 import StudyBtn from "./StudyBtn";
 import DeleteBtn from "./DeleteBtn";
 
-const DecksList = ({ decks, setDecks }) => {
+const DecksList = ({ decks, setDecks}) => {
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -36,7 +36,7 @@ const DecksList = ({ decks, setDecks }) => {
         <p className="card-text">{deck.description}</p>
         <div class="btn-toolbar justify-content-between">
           <div class="btn-group">
-            <ViewBtn />
+            <ViewBtn id={deck.id}/>
             <StudyBtn deck={deck} />
           </div>
           <div>

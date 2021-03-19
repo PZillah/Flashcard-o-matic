@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
-import Navbar from "../Layout/Navbar";
-import AddCardsBtn from "../ViewDeck/AddCardsBtn";
+import StudyNavTitle from "./StudyNavTitle";
+import AddCardsBtn from "../ViewDeckScreen/AddCardsBtn";
 
 const StudyScreen = () => {
   const [deck, setDeck] = useState({});
@@ -23,8 +23,7 @@ const StudyScreen = () => {
   }
   const NotEnoughMessage = (
     <div>
-      <Navbar deck={deck} />
-      <h2>Study: {deck.name}</h2>
+      <StudyNavTitle deck={deck} />
       <h3>Not enough cards.</h3>
       <p>
         You need at least 3 cards to study. There are {deck.cards.length} in
@@ -68,8 +67,7 @@ const StudyScreen = () => {
   } else if (deck.cards.length >= 3) {
     return (
       <div>
-        <Navbar deck={deck} />
-        <h2>Study: {deck.name}</h2>
+        <StudyNavTitle deck={deck} />
         <div className="card mb-1">
           <div className="card-body">
             <div className="d-flex w-100">

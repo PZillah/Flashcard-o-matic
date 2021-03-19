@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { createCard, readDeck } from "../utils/api/index";
+import { updateDeck, readDeck } from "../utils/api/index";
 
-const AddCardScreen = () => {
+const EditDeckScreen = () => {
   const [deck, setDeck] = useState({});
   const { deckId } = useParams();
   const initialFormState = {
-    front: "",
-    back: "",
+    name: "",
+    description: "",
   };
   const [formData, setFormData] = useState({ ...initialFormState });
   const handleChange = ({ target }) => {
@@ -16,13 +16,11 @@ const AddCardScreen = () => {
       [target.id]: target.value,
     });
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    createCard(deckId, formData);
+    updateDeck(deckId, formData);
     setFormData({ ...initialFormState });
   };
-
   useEffect(() => {
     const abortController = new AbortController();
     readDeck(deckId, abortController.signal)
@@ -34,7 +32,6 @@ const AddCardScreen = () => {
       });
     return () => abortController.abort();
   }, []);
-
   return (
     <div>
       <div>
@@ -43,50 +40,43 @@ const AddCardScreen = () => {
             <li className="breadcrumb-item">
               <Link to="/">Home</Link>
             </li>
-            <li className="breadcrumb-item">
-              <Link to={`/decks/${deck.id}`}>{deck.name}</Link>
-            </li>
+            <li className="breadcrumb-item">{deck.name}</li>
             <li className="breadcrumb-item active" aria-current="page">
-              Add Card
+              Edit Deck
             </li>
           </ol>
         </nav>
       </div>
-      <h2>{deck.name}: Add Card</h2>
+      <h2>Edit Deck</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="addfront">
-          Front
+        <label htmlFor="deckname">
+          Name
           <br />
-          <textarea
-            className="form-control"
-            id="front"
-            type="textarea"
-            placeholder="Front side of card"
+          <input
+            id="name"
+            type="text"
+            placeholder={deck.name}
             onChange={handleChange}
-            value={formData.front}
+            value={formData.name}
           />
         </label>
         <br />
-        <label htmlFor="addback">
-          Back
+        <label htmlFor="description">
+          Description
           <br />
           <textarea
             className="form-control"
-            id="back"
+            id="description"
             type="textarea"
-            placeholder="Back side of card"
+            placeholder={deck.description}
             onChange={handleChange}
-            value={formData.back}
+            value={formData.description}
           />
         </label>
         <div>
           <div>
-            <a
-              class="btn btn-secondary mr-2"
-              href={`/decks/${deck.id}`}
-              role="button"
-            >
-              Done
+            <a class="btn btn-secondary mr-2" href={`/decks/${deck.id}`} role="button">
+              Cancel
             </a>
             <button
               onClick={handleSubmit}
@@ -94,7 +84,7 @@ const AddCardScreen = () => {
               type="submit"
               className="btn btn-primary"
             >
-              Save
+              Submit
             </button>
           </div>
         </div>
@@ -103,4 +93,4 @@ const AddCardScreen = () => {
   );
 };
 
-export default AddCardScreen;
+export default EditDeckScreen;

@@ -3,10 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
 import StudyBtn from "../Home/StudyBtn";
 import DeleteBtn from "../Home/DeleteBtn";
-import AddCardsBtn from "../ViewDeck/AddCardsBtn";
+import AddCardsBtn from "./AddCardsBtn";
 import EditBtn from "../Home/EditBtn";
-
+//parent of the add/edit screens
 const DeckScreen = () => {
+    //const [deck, setDeck] = useState({ cards: [] });
   const [deck, setDeck] = useState({});
   const { deckId } = useParams();
   useEffect(() => {
@@ -14,6 +15,10 @@ const DeckScreen = () => {
     readDeck(deckId, abortController.signal).then(setDeck);
     return () => abortController.abort();
   }, []);
+  //const cardsList = deck.cards.map((card, index) => {
+
+  //})
+
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -47,6 +52,7 @@ const DeckScreen = () => {
         </div>
       </div>
       <h3>Cards</h3>
+   
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ deck }) => {
+const StudyNavTitle = ({ deck }) => {
   return (
     <div>
       <nav aria-label="breadcrumb">
@@ -17,8 +17,9 @@ const Navbar = ({ deck }) => {
           </li>
         </ol>
       </nav>
+      <h2>Study: {deck.name}</h2>
     </div>
   );
 };
 
-export default Navbar;
+export default StudyNavTitle;
