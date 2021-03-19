@@ -13,7 +13,6 @@ import AddCardScreen from "../AddCard/AddCardScreen";
 
 function Layout() {
   const [decks, setDecks] = useState([]);
-  const [deck, setDeck] = useState({});
   const [cards, setCards] = useState([]);
   return (
     <Fragment>
@@ -26,18 +25,16 @@ function Layout() {
           <Route path="/decks/:deckId/study">
             <StudyScreen
               cards={cards}
-              deck={deck}
               decks={decks}
               setCards={setCards}
-              setDeck={setDeck}
               setDecks={setDecks}
             />
           </Route>
           <Route path="/decks/new">
-            <CreateDeckScreen decks={decks} setDecks={setDecks} />
+            <CreateDeckScreen />
           </Route>
           <Route path="/decks/:deckId">
-            <DeckScreen decks={decks} setDecks={setDecks} />
+            <DeckScreen />
           </Route>
           <Route exact path="/">
             <DecksList decks={decks} setDecks={setDecks} />

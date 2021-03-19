@@ -1,6 +1,6 @@
 import React, { useEffect, useState  } from "react";
 import {useHistory} from "react-router";
-import { useRouteMatch, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
 import Navbar from "../Layout/Navbar";
 import AddCardsBtn from "../ViewDeck/AddCardsBtn";
