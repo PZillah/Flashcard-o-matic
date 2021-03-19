@@ -33,7 +33,7 @@ const CreateDeck = () => {
   //   return () => abortController.abort();
   // }, []);
   return (
-    <div className="container">
+    <div>
       <div>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">

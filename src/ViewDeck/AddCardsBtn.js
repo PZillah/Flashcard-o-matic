@@ -6,7 +6,7 @@ const AddCardBtns = ({deck}) => {
 
   return (
     <div>
-      <Link to={`/decks/${deck.id}/cards/new`} className="btn btn-secondary btn-lg">
+      <Link to={`/decks/${deck.id}/cards/new`} className="btn btn-primary">
         + Add Cards
       </Link>
     </div>

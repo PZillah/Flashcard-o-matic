@@ -1,5 +1,5 @@
-import React, { useEffect, useState  } from "react";
-import {useHistory} from "react-router";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 import { readDeck } from "../utils/api/index";
 import Navbar from "../Layout/Navbar";
@@ -9,68 +9,61 @@ const StudyScreen = () => {
   const [deck, setDeck] = useState({});
   const [cardIndex, setCardIndex] = useState(0);
   const [frontSide, setFrontSide] = useState(true);
-  const { deckId } = useParams(); // returns an object that looks like?
+  const { deckId } = useParams();
   const history = useHistory();
 
   useEffect(() => {
     const abortController = new AbortController();
-    readDeck(deckId, abortController.signal).then(setDeck)
+    readDeck(deckId, abortController.signal).then(setDeck);
     return () => abortController.abort();
   }, []);
-
-  
-  if(Object.keys(deck).length === 0) return null;
-  if (!deck.cards) {return null;}
+  if (Object.keys(deck).length === 0) return null;
+  if (!deck.cards) {
+    return null;
+  }
   const NotEnoughMessage = (
     <div>
       <Navbar deck={deck} />
       <h2>Study: {deck.name}</h2>
       <h3>Not enough cards.</h3>
       <p>
-        You need at least 3 cards to study. There are {deck.cards.length} in this
-        deck.
+        You need at least 3 cards to study. There are {deck.cards.length} in
+        this deck.
       </p>
-      <AddCardsBtn deck={deck}/>
+      <AddCardsBtn deck={deck} />
     </div>
   );
-
-  // Flip button make Next btn appear
-  // Next button change cardIndex state
   const handleFlip = (event) => {
-   
     setFrontSide(!frontSide);
-    
   };
   const handleNext = (event) => {
     if (cardIndex < deck.cards.length - 1) {
       setCardIndex(cardIndex + 1);
-    } else { 
+    } else {
       if (
         window.confirm(
           `Restart cards?\n\nClick 'cancel' to return to the home page.`
-        )) {
+        )
+      ) {
         setCardIndex(0);
       } else {
         history.push("/");
       }
-    } setFrontSide(true);
-  }
-
-  
+    }
+    setFrontSide(true);
+  };
   const renderNextBtn = () => {
-    if(frontSide === false) {
+    if (frontSide === false) {
       return (
-    <button onClick={handleNext} id="next" className="btn btn-primary">
-      Next
-    </button>
-      )
+        <button onClick={handleNext} id="next" className="btn btn-primary">
+          Next
+        </button>
+      );
     } else {
       return null;
     }
   };
-  
   if (deck.cards.length < 3) {
-    
     return NotEnoughMessage;
   } else if (deck.cards.length >= 3) {
     return (
