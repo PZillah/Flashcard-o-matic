@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { createDeck, readDeck } from "../utils/api/index";
+import { createCard, readDeck } from "../utils/api/index";
 
-const CreateDeck = () => {
+const AddEditCardForm = () => {
   const [deck, setDeck] = useState({});
   const { deckId } = useParams();
   const initialFormState = {
-    name: "",
-    description: "",
+    front: "",
+    back: "",
   };
   const [formData, setFormData] = useState({ ...initialFormState });
   const handleChange = ({ target }) => {
@@ -16,11 +16,21 @@ const CreateDeck = () => {
       [target.id]: target.value,
     });
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    createDeck(deck, formData);
+    createCard(deckId, formData)
+      .then((response) => {
+        deck.cards.push(response);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          throw error;
+        }
+      });
     setFormData({ ...initialFormState });
   };
+
   useEffect(() => {
     const abortController = new AbortController();
     readDeck(deckId, abortController.signal)
@@ -32,50 +42,43 @@ const CreateDeck = () => {
       });
     return () => abortController.abort();
   }, []);
+
   return (
     <div>
-      <div>
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
-            </li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Create Deck
-            </li>
-          </ol>
-        </nav>
-      </div>
-      <h2>Create Deck</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="deckname">
-          Name
-          <br />
-          <input
-            id="name"
-            type="text"
-            placeholder="Deck Name"
-            onChange={handleChange}
-            value={formData.name}
-          />
-        </label>
-        <br />
-        <label htmlFor="description">
-          Description
+        <label htmlFor="addfront">
+          Front
           <br />
           <textarea
             className="form-control"
-            id="description"
+            id="front"
             type="textarea"
-            placeholder="Brief description of the deck"
+            placeholder="Front side of card"
             onChange={handleChange}
-            value={formData.description}
+            value={formData.front}
+          />
+        </label>
+        <br />
+        <label htmlFor="addback">
+          Back
+          <br />
+          <textarea
+            className="form-control"
+            id="back"
+            type="textarea"
+            placeholder="Back side of card"
+            onChange={handleChange}
+            value={formData.back}
           />
         </label>
         <div>
           <div>
-            <a class="btn btn-secondary mr-2" href="/" role="button">
-              Cancel
+            <a
+              class="btn btn-secondary mr-2"
+              href={`/decks/${deck.id}`}
+              role="button"
+            >
+              Done
             </a>
             <button
               onClick={handleSubmit}
@@ -83,7 +86,7 @@ const CreateDeck = () => {
               type="submit"
               className="btn btn-primary"
             >
-              Submit
+              Save
             </button>
           </div>
         </div>
@@ -92,4 +95,4 @@ const CreateDeck = () => {
   );
 };
 
-export default CreateDeck;
+export default AddEditCardForm;

@@ -1,8 +1,8 @@
 import React, {useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { updateDeck, readDeck } from "../utils/api/index";
 
-const EditDeckScreen = () => {
+const AddEditDeckForm = () => {
   const [deck, setDeck] = useState({});
   const { deckId } = useParams();
   const initialFormState = {
@@ -34,20 +34,6 @@ const EditDeckScreen = () => {
   }, []);
   return (
     <div>
-      <div>
-        <nav aria-label="breadcrumb">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item">
-              <Link to="/">Home</Link>
-            </li>
-            <li className="breadcrumb-item">{deck.name}</li>
-            <li className="breadcrumb-item active" aria-current="page">
-              Edit Deck
-            </li>
-          </ol>
-        </nav>
-      </div>
-      <h2>Edit Deck</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="deckname">
           Name
@@ -93,4 +79,4 @@ const EditDeckScreen = () => {
   );
 };
 
-export default EditDeckScreen;
+export default AddEditDeckForm;

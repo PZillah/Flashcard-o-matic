@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
-import { Route } from "react-router-dom";
 import { listDecks } from "../utils/api/index";
-import CreateDeckBtn from "./CreateDeckBtn";
-import ViewBtn from "./ViewBtn";
-import StudyBtn from "./StudyBtn";
-import DeleteBtn from "./DeleteBtn";
+import ViewBtn from "../CommonComponents/ViewBtn";
+import StudyBtn from "../CommonComponents/StudyBtn";
+import DeleteBtn from "../CommonComponents/DeleteBtn";
 
-const DecksList = ({ decks, setDecks}) => {
+const DecksList = ({ decks, setDecks }) => {
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -27,7 +25,7 @@ const DecksList = ({ decks, setDecks}) => {
     listDecks(abortController.signal).then(setDecks);
   };
   const listOfDecks = decks.map((deck) => (
-    <div className="card mb-1">
+    <div className="card">
       <div className="card-body">
         <div className="d-flex w-100 justify-content-between">
           <h5 className="card-title">{deck.name}</h5>
@@ -36,7 +34,7 @@ const DecksList = ({ decks, setDecks}) => {
         <p className="card-text">{deck.description}</p>
         <div class="btn-toolbar justify-content-between">
           <div class="btn-group">
-            <ViewBtn id={deck.id}/>
+            <ViewBtn id={deck.id} />
             <StudyBtn deck={deck} />
           </div>
           <div>
@@ -46,15 +44,7 @@ const DecksList = ({ decks, setDecks}) => {
       </div>
     </div>
   ));
-  return (
-    <div>
-      <Route>
-        <CreateDeckBtn />
-        <br />
-        <div>{listOfDecks}</div>
-      </Route>
-    </div>
-  );
+  return <div>{listOfDecks}</div>;
 };
 
 export default DecksList;

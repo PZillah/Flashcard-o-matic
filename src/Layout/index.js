@@ -2,15 +2,16 @@ import React, { useState, Fragment } from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
-import DecksList from "../Home/DecksList";
+import DecksList from "../HomeScreen/DecksList";
 import StudyScreen from "../Study/StudyScreen";
-import DeckScreen from "../ViewDeckScreen/DeckScreen";
-import AddEditCardForm from "../ViewDeckScreen/AddEditCardForm";
-import AddEditDeckForm from "../ViewDeckScreen/AddEditDeckForm";
-import CreateDeckNavTitle from "../ViewDeckScreen/CreateDeckNavTitle";
-import EditDeckNavTitle from "../ViewDeckScreen/EditDeckNavTitle";
-import AddCardNavTitle from "../ViewDeckScreen/AddCardNavTitle";
-import EditCardNavTitle from "../ViewDeckScreen/EditCardNavTitle";
+import Deck from "../ViewDeckScreen/Deck";
+import AddEditCardForm from "../CommonComponents/AddEditCardForm";
+import AddEditDeckForm from "../CommonComponents/AddEditDeckForm";
+import CreateDeckBtn from "../HomeScreen/CreateDeckBtn";
+import CreateDeckNavTitle from "../CreateDeckScreen/CreateDeckNavTitle";
+import EditDeckNavTitle from "../EditDeckScreen/EditDeckNavTitle";
+import AddCardNavTitle from "../AddCardScreen/AddCardNavTitle";
+import EditCardNavTitle from "../EditCardScreen/EditCardNavTitle";
 
 // Layout for the Home Screen
 // <Route> is checking if the exact path is /, then display DecksList on that page
@@ -29,7 +30,7 @@ function Layout() {
             <AddEditCardForm />
           </Route>
           <Route path="/decks/:deckId/edit"> {/*Edit Deck Screen*/}
-            <EditDeckNavTitle />
+            <EditDeckNavTitle deck={deck}/>
             <AddEditDeckForm />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit"> {/*Edit Card Screen */}
@@ -37,21 +38,17 @@ function Layout() {
             <AddEditCardForm />
           </Route>
           <Route path="/decks/:deckId/study">
-            <StudyScreen
-              cards={cards}
-              decks={decks}
-              setCards={setCards}
-              setDecks={setDecks}
-            />
+            <StudyScreen />
           </Route>
           <Route path="/decks/new"> {/*Create Deck Screen*/}
             <CreateDeckNavTitle id={deck.id} deck={deck}/>
             <AddEditDeckForm />
           </Route>
           <Route path="/decks/:deckId"> {/*Deck Screen*/}
-            <DeckScreen />
+            <Deck deck={deck} id={deck.id}/>
           </Route>
           <Route exact path="/"> {/*home page*/}
+            <CreateDeckBtn />
             <DecksList decks={decks} setDecks={setDecks} />
           </Route>
           <Route path="*">
