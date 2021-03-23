@@ -1,82 +1,97 @@
-import React, {useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { updateDeck, readDeck } from "../utils/api/index";
+import React, {useState } from "react";
+// import { useParams } from "react-router-dom";
+// import { updateDeck, readDeck } from "../utils/api/index";
+// import CancelBtn from "../CommonComponents/CancelBtn";
+// const AddEditDeckForm = (idType) => {
 
-const AddEditDeckForm = () => {
-  const [deck, setDeck] = useState({});
-  const { deckId } = useParams();
-  const initialFormState = {
-    name: "",
-    description: "",
-  };
-  const [formData, setFormData] = useState({ ...initialFormState });
-  const handleChange = ({ target }) => {
-    setFormData({
-      ...formData,
-      [target.id]: target.value,
-    });
-  };
-  const handleSubmit = (event) => {
+function AddEditDeckForm({onSubmit, onCancel, initialState = {name: "", description: "" }}) {
+  const [deck, setDeck] = useState(initialState);
+  // const { deckId } = useParams();
+  // const initialFormState = {
+  //   name: "",
+  //   description: "",
+  // };
+  // const [formData, setFormData] = useState({ ...initialFormState });
+  function handleChange({ target : {name, value} }) {
+    setDeck((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
+  function handleSubmit(event) {
     event.preventDefault();
-    updateDeck(deckId, formData);
-    setFormData({ ...initialFormState });
-  };
-  useEffect(() => {
-    const abortController = new AbortController();
-    readDeck(deckId, abortController.signal)
-      .then(setDeck)
-      .catch((error) => {
-        if (error.name !== "AbortError") {
-          throw error;
-        }
-      });
-    return () => abortController.abort();
-  }, []);
+    event.stopPropagation();
+    onSubmit(deck);
+  }
+  // const handleChange = ({ target }) => {
+  //   setFormData({
+  //     ...formData,
+  //     [target.id]: target.value,
+  //   });
+  // };
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   updateDeck(deckId, formData);
+  //   setFormData({ ...initialFormState });
+  // };
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   readDeck(deckId, abortController.signal)
+  //     .then(setDeck)
+  //     .catch((error) => {
+  //       if (error.name !== "AbortError") {
+  //         throw error;
+  //       }
+  //     });
+  //   return () => abortController.abort();
+  // }, []);
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="deckname">
-          Name
-          <br />
-          <input
-            id="name"
-            type="text"
-            placeholder={deck.name}
-            onChange={handleChange}
-            value={formData.name}
-          />
-        </label>
-        <br />
-        <label htmlFor="description">
-          Description
-          <br />
-          <textarea
-            className="form-control"
-            id="description"
-            type="textarea"
-            placeholder={deck.description}
-            onChange={handleChange}
-            value={formData.description}
-          />
-        </label>
-        <div>
-          <div>
-            <a class="btn btn-secondary mr-2" href={`/decks/${deck.id}`} role="button">
-              Cancel
-            </a>
-            <button
-              onClick={handleSubmit}
-              id="save"
-              type="submit"
-              className="btn btn-primary"
-            >
-              Submit
-            </button>
+        <fieldset>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              className="form-control"
+              placeholder="Deck Name"
+              value={deck.name}
+              required={true}
+              onChange={handleChange}
+            />
           </div>
-        </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea
+              className="form-control"
+              id="description"
+              name="description"
+              rows="4"
+              required={true}
+              placeholder="Brief description of the deck"
+              value={deck.description}
+              onChange={handleChange}
+            />
+          </div>
+          <button
+            type="button"
+            className="btn btn-secondary mr-2"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </fieldset>
       </form>
     </div>
   );
 };
-
 export default AddEditDeckForm;

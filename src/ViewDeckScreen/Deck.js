@@ -1,16 +1,43 @@
-import React, {useState} from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
 import StudyBtn from "../CommonComponents/StudyBtn";
-import DeleteBtn from "../CommonComponents/DeleteBtn";
+// import DeleteBtn from "../CommonComponents/DeleteBtn";
 import AddCardsBtn from "./AddCardsBtn";
 import EditBtn from "../CommonComponents/EditBtn";
 import CardsList from "../ViewDeckScreen/CardsList";
+import { deleteDeck, deleteCard, readDeck } from "../utils/api";
 //parent of the add/edit screens
-const Deck = ({cards, setCards}) => {
+// const Deck = () => {
+function Deck() {
+  const history = useHistory();
+  const { deckId } = useParams();
   const [deck, setDeck] = useState({ cards: [] });
-  
+  useEffect(loadDeck, [deckId]);
+
+  function loadDeck() {
+    readDeck(deckId).then(setDeck);
+  }
+
+  function handleDelete() {
+    const confirmed = window.confirm(
+      "Delete this deck?\n\nYou will not be able to recover it."
+    );
+    if (confirmed) {
+      deleteDeck(deck.id).then(() => history.push("/decks"));
+    }
+  }
+
+  function deleteCardHandler(cardId) {
+    const confirmed = window.confirm(
+      "Delete this card?\n\nYou will not be able to recover it."
+    );
+    if (confirmed) {
+      console.log("deleteCardHandler", confirmed, cardId);
+      deleteCard(cardId).then(loadDeck);
+    }
+  }
   return (
-    <div>
+    <main className="container deck-view">
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
@@ -21,31 +48,29 @@ const Deck = ({cards, setCards}) => {
           </li>
         </ol>
       </nav>
-      <div className="mb-1">
-        <div className="card-body">
-          <div className="d-flex w-100 justify-content-between">
-            <h5 className="card-title">{deck.name}</h5>
-          </div>
-          <p className="card-text">{deck.description}</p>
-          <div className="btn-toolbar justify-content-between">
-            <div className="btn-group">
-              <EditBtn deck={deck} />
-              <StudyBtn deck={deck} />
-              <AddCardsBtn deck={deck} />
-            </div>
-            <div className="btn-group">
-              <DeleteBtn idType={"deck"} id={deck.id} />
-            </div>
-            <div>
-            <h3>Cards</h3>
-            </div>
-            <div>
-            <CardsList cards={cards} setCards={setCards} />
-            </div>
-          </div>
+
+      <div className="media mb-2">
+        <div className="media-body">
+          <h5 className="mt-0">{deck.name}</h5>
+          {deck.description}
         </div>
       </div>
-    </div>
+      <div className="btn-group mb-2">
+        <EditBtn deck={deck} />
+        <StudyBtn deck={deck} />
+        <AddCardsBtn deck={deck} />
+      </div> 
+      <button
+        className="btn btn-danger float-right"
+        title="Delete deck"
+      >
+        <span className="oi oi-trash" onClick={handleDelete} />
+      </button>
+      <CardsList 
+        deck={deck}
+        onCardDelete={deleteCardHandler}
+      />
+    </main>
   );
 };
 

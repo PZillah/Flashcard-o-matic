@@ -80,8 +80,8 @@ const StudyScreen = () => {
             ) : (
               <p className="card-text">{deck.cards[cardIndex].back}</p>
             )}
-            <div class="btn-toolbar ">
-              <div class="btn-group">
+            <div className="btn-toolbar ">
+              <div className="btn-group">
                 <button
                   onClick={handleFlip}
                   id="flip"

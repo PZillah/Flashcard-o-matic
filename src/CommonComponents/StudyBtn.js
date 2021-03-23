@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const StudyBtn = ({deck}) => {
+const StudyBtn = ({ deck }) => {
   return (
     <div>
       <Link to={`/decks/${deck.id}/study`} className="btn btn-primary mr-2">
@@ -10,11 +10,11 @@ const StudyBtn = ({deck}) => {
           width="16"
           height="16"
           fill="currentColor"
-          class="bi bi-journal-bookmark-fill"
+          className="bi bi-journal-bookmark-fill"
           viewBox="0 0 16 16"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M6 1h6v7a.5.5 0 0 1-.757.429L9 7.083 6.757 8.43A.5.5 0 0 1 6 8V1z"
           />
           <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
