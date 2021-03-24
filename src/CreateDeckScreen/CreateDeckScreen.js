@@ -1,7 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import CreateDeckNavTitle from "../CreateDeckScreen/CreateDeckNavTitle";
-import AddEditDeckForm from "../CommonComponents/DeckForm";
+import { useHistory, Link } from "react-router-dom";
+import DeckForm from "../CommonComponents/DeckForm";
 import { createDeck } from "../utils/api";
 
 function CreateDeckScreen() {
@@ -17,8 +16,20 @@ function CreateDeckScreen() {
   }
   return (
     <div>
-      <CreateDeckNavTitle />
-      <AddEditDeckForm
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              Create Deck
+            </li>
+          </ol>
+        </nav>
+      </div>
+      <h2>Create Deck</h2>
+      <DeckForm
         idType="cancelcreate"
         onCancel={cancel}
         onSubmit={submitHandler}

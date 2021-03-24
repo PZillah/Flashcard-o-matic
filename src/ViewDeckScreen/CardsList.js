@@ -1,29 +1,6 @@
 import React from "react";
-// import EditBtn from "../CommonComponents/DeleteBtn";
-// import DeleteBtn from "../CommonComponents/DeleteBtn";
 import { Link } from "react-router-dom";
 
-//import { listCards } from "../utils/api/index";
-
-// const CardsList = ({ deck  }) => {
-// useEffect(() => {
-//   const abortController = new AbortController();
-//   const signal = abortController.signal;
-//   listCards(signal)
-//     .then(setCards)
-//     .catch((error) => {
-//       if (error.name !== "AbortError") {
-//         throw error;
-//       }
-//     });
-//   return () => abortController.abort();
-// }, []);
-
-// after delete need to rerender the page
-// const reRender = () => {
-//   const abortController = new AbortController();
-//   listCards(abortController.signal).then(setCards);
-// };
 function CardsList({ deck, onCardDelete }) {
   const { cards = [] } = deck;
   const listOfCards = cards.map((card) => (

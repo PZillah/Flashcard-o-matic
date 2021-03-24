@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { readCard, readDeck, updateCard } from "../utils/api/index";
-import CardForm from "./CardForm"
-  
+import CardForm from "./CardForm";
+
 function EditCard() {
   const history = useHistory();
   const { deckId, cardId } = useParams();
-  
+
   const [card, setCard] = useState({ front: "", back: "" });
   const [deck, setDeck] = useState({ cards: [] });
-  
-  useEffect(() => {
-    readDeck(deckId).then(setDeck)
-    readCard(cardId).then(setCard)
-  }, [deckId, cardId])
 
-  function handleSubmit(card){
-    updateCard(card).then(doneHandler)
+  useEffect(() => {
+    readDeck(deckId).then(setDeck);
+    readCard(cardId).then(setCard);
+  }, [deckId, cardId]);
+
+  function handleSubmit(card) {
+    updateCard(card).then(doneHandler);
   }
 
   function doneHandler() {
@@ -24,7 +24,7 @@ function EditCard() {
   }
 
   const child = card.id ? (
-    <CardForm 
+    <CardForm
       onSubmit={handleSubmit}
       onDone={doneHandler}
       deckName={deck.name}
@@ -56,5 +56,5 @@ function EditCard() {
       {child}
     </>
   );
-};
+}
 export default EditCard;

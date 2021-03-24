@@ -18,7 +18,7 @@ function DecksList() {
   function loadDecks() {
     listDecks().then(setDecks);
   }
-  
+
   const listOfDecks = decks.map((deck) => (
     <li
       key={deck.id}

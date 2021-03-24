@@ -58,19 +58,13 @@ function Deck() {
         <EditBtn deck={deck} />
         <StudyBtn deck={deck} />
         <AddCardsBtn deck={deck} />
-      </div> 
-      <button
-        className="btn btn-danger float-right"
-        title="Delete deck"
-      >
+      </div>
+      <button className="btn btn-danger float-right" title="Delete deck">
         <span className="oi oi-trash" onClick={handleDelete} />
       </button>
-      <CardsList 
-        deck={deck}
-        onCardDelete={deleteCardHandler}
-      />
+      <CardsList deck={deck} onCardDelete={deleteCardHandler} />
     </main>
   );
-};
+}
 
 export default Deck;
