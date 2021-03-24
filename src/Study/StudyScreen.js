@@ -16,7 +16,7 @@ const StudyScreen = () => {
     const abortController = new AbortController();
     readDeck(deckId, abortController.signal).then(setDeck);
     return () => abortController.abort();
-  }, []);
+  }, [deckId]);
   if (Object.keys(deck).length === 0) return null;
   if (!deck.cards) {
     return null;

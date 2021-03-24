@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useHistory } from "react-router-dom";
 import { readCard, readDeck, updateCard } from "../utils/api/index";
 import CardForm from "./CardForm"
-// const AddEditCardForm = () => {
   
-function EditCard({title}) {
+function EditCard() {
   const history = useHistory();
   const { deckId, cardId } = useParams();
   

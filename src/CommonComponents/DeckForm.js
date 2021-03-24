@@ -1,18 +1,13 @@
-import React, {useState } from "react";
-// import { useParams } from "react-router-dom";
-// import { updateDeck, readDeck } from "../utils/api/index";
-// import CancelBtn from "../CommonComponents/CancelBtn";
-// const AddEditDeckForm = (idType) => {
+import React, { useState } from "react";
 
-function AddEditDeckForm({onSubmit, onCancel, initialState = {name: "", description: "" }}) {
+function DeckForm({
+  onSubmit,
+  onCancel,
+  initialState = { name: "", description: "" },
+}) {
   const [deck, setDeck] = useState(initialState);
-  // const { deckId } = useParams();
-  // const initialFormState = {
-  //   name: "",
-  //   description: "",
-  // };
-  // const [formData, setFormData] = useState({ ...initialFormState });
-  function handleChange({ target : {name, value} }) {
+
+  function handleChange({ target: { name, value } }) {
     setDeck((prevState) => ({
       ...prevState,
       [name]: value,
@@ -23,28 +18,6 @@ function AddEditDeckForm({onSubmit, onCancel, initialState = {name: "", descript
     event.stopPropagation();
     onSubmit(deck);
   }
-  // const handleChange = ({ target }) => {
-  //   setFormData({
-  //     ...formData,
-  //     [target.id]: target.value,
-  //   });
-  // };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   updateDeck(deckId, formData);
-  //   setFormData({ ...initialFormState });
-  // };
-  // useEffect(() => {
-  //   const abortController = new AbortController();
-  //   readDeck(deckId, abortController.signal)
-  //     .then(setDeck)
-  //     .catch((error) => {
-  //       if (error.name !== "AbortError") {
-  //         throw error;
-  //       }
-  //     });
-  //   return () => abortController.abort();
-  // }, []);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -93,5 +66,5 @@ function AddEditDeckForm({onSubmit, onCancel, initialState = {name: "", descript
       </form>
     </div>
   );
-};
-export default AddEditDeckForm;
+}
+export default DeckForm;

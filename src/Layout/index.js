@@ -1,11 +1,10 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import DecksList from "../HomeScreen/DecksList";
 import StudyScreen from "../Study/StudyScreen";
 import Deck from "../ViewDeckScreen/Deck";
-
 import CreateDeckScreen from "../CreateDeckScreen/CreateDeckScreen";
 import EditDeckScreen from "../EditDeckScreen/EditDeckScreen";
 import CreateCard from "../CommonComponents/CreateCard";
@@ -28,22 +27,19 @@ function Layout() {
           <Route path="/decks/:deckId/edit">
             <EditDeckScreen />
           </Route>
-
           <Route path="/decks/:deckId/cards/new">
             {" "}
             {/*Add Card Screen */}
             <CreateCard />
           </Route>
-
           <Route path="/decks/:deckId/cards/:cardId/edit">
             {" "}
             {/*Edit Card Screen */}
             <EditCard />
           </Route>
-
           <Route exact={true} path="/decks/:deckId">
             {" "}
-            {/*Deck Screen*/}
+            {/*View Deck Screen*/}
             <Deck />
           </Route>
           <Route exact path="/decks">

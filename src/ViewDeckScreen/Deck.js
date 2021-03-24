@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import StudyBtn from "../CommonComponents/StudyBtn";
-// import DeleteBtn from "../CommonComponents/DeleteBtn";
 import AddCardsBtn from "./AddCardsBtn";
 import EditBtn from "../CommonComponents/EditBtn";
 import CardsList from "../ViewDeckScreen/CardsList";
 import { deleteDeck, deleteCard, readDeck } from "../utils/api";
 //parent of the add/edit screens
-// const Deck = () => {
+
 function Deck() {
   const history = useHistory();
   const { deckId } = useParams();
